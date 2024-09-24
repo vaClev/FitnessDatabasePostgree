@@ -30,8 +30,12 @@ CREATE TABLE Members
 
 INSERT INTO members (id, name, secondname, age, gender, wallet, visitedlist, ticketdate)
 VALUES 
-('qwert', 'Oleg', 'Vasilev', 32, 1, 1000,null, null),
-('asdfg', 'Ivan', 'Ivanov', 22, 1, 1800,null, null);
+('qwert', 'Oleg', 'Vasilev', 32, 1, 1000, null, null),
+('asdfg', 'Ivan', 'Ivanov', 22, 1, 1800, null, '12/20/2025');
+
+UPDATE Members
+SET ticketdate = '12/01/2024'
+WHERE id = 'qwert';
 
 --выборка членов клуба
 SELECT Members.id, Members.name, Members.secondname, Members.age, genders.gender,
