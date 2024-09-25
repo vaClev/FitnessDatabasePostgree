@@ -1,7 +1,6 @@
 package org.example.DBconnectors;
 
 import org.example.fitnesse.Member;
-import org.example.fitnesse.Visitor;
 import org.example.fitnesse.VisitorInterface;
 
 import java.sql.ResultSet;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 public class DBMembersBehavior implements DBVisitorBehavior {
     private final DBHelper db = new DBHelper();
     private ResultSet resultSet;
-    private Member foundedMember;
+    private VisitorInterface foundedMember;
     private ArrayList<VisitorInterface> members;
 
     @Override
@@ -39,7 +38,7 @@ public class DBMembersBehavior implements DBVisitorBehavior {
         }
         if(isEmpty) System.out.println("Таблица Members пустая");
     }
-    private Member buildMemberFromResultSet() throws SQLException {
+    private VisitorInterface buildMemberFromResultSet() throws SQLException {
         //TODO сейчас без visitedlist  изучить как пройтись по массиву и как его полчить
         //System.out.println(resultSet.getString("visitedlist"));
         return new Member(
@@ -54,7 +53,7 @@ public class DBMembersBehavior implements DBVisitorBehavior {
     }
 
     @Override
-    public VisitorInterface getByID(String ID) {
+    public VisitorInterface getById(String ID) {
         foundedMember = null;
         resultSet = db.getResultSet("SELECT Members.id, Members.name, Members.secondname, Members.age, genders.gender," +
                 "\nMembers.Wallet, Members.VisitedList, Members.TicketDate" +
@@ -77,17 +76,15 @@ public class DBMembersBehavior implements DBVisitorBehavior {
     }
 
     @Override
-    public boolean add(Visitor visitor) {
+    public boolean add(VisitorInterface visitor) {
         return false;
     }
-
     @Override
-    public boolean update(Visitor visitor) {
+    public boolean update(VisitorInterface visitor) {
         return false;
     }
-
     @Override
-    public boolean delete(Visitor visitor) {
+    public boolean delete(VisitorInterface visitor) {
         return false;
     }
 

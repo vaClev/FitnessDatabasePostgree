@@ -1,7 +1,7 @@
 package org.example.DBconnectors;
 import java.sql.*;
 
-public class DBHelper {
+class DBHelper {
     private static final String jdbcUrl = "jdbc:postgresql://localhost:5432/FitnessHome";
     private static final String username = "postgres";
     private static final String password = "1234";

@@ -67,14 +67,14 @@ public class DBEmployeeBehavior implements DBVisitorBehavior {
     }
 
     @Override
-    public VisitorInterface getByID(String ID) {
+    public VisitorInterface getById(String id) {
         foundedEmployee = null;
         resultSet = db.getResultSet("SELECT Employees.id, Employees.name," +
                 "\nEmployees.secondname, Employees.age, Employees.status," +
                 "\nPositions.positionName"+
                 "\nFROM Employees"+
                 "\nJOIN Positions ON Employees.status = Positions.Id" +
-                "\nWHERE Employees.id ='" + ID + "'");
+                "\nWHERE Employees.id ='" + id + "'");
         try {
             findEmployee();
         } catch (SQLException ignored) {
@@ -91,17 +91,17 @@ public class DBEmployeeBehavior implements DBVisitorBehavior {
     }
 
     @Override
-    public boolean add(Visitor visitor) {
+    public boolean add(VisitorInterface visitor) {
         return false;
     }
 
     @Override
-    public boolean update(Visitor visitor) {
+    public boolean update(VisitorInterface visitor) {
         return false;
     }
 
     @Override
-    public boolean delete(Visitor visitor) {
+    public boolean delete(VisitorInterface visitor) {
         return false;
     }
 }
