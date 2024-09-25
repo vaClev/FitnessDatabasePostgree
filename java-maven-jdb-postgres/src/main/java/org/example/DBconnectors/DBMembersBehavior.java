@@ -39,6 +39,19 @@ public class DBMembersBehavior implements DBVisitorBehavior {
         }
         if(isEmpty) System.out.println("Таблица Members пустая");
     }
+    private Member buildMemberFromResultSet() throws SQLException {
+        //TODO сейчас без visitedlist  изучить как пройтись по массиву и как его полчить
+        //System.out.println(resultSet.getString("visitedlist"));
+        return new Member(
+                resultSet.getString("name"),
+                resultSet.getString("secondName"),
+                resultSet.getInt("age"),
+                resultSet.getString("gender").toCharArray()[0],
+                resultSet.getInt("wallet"),
+                resultSet.getString("id"),
+                resultSet.getDate("ticketdate")
+        );
+    }
 
     @Override
     public VisitorInterface getByID(String ID) {
@@ -61,19 +74,6 @@ public class DBMembersBehavior implements DBVisitorBehavior {
         } else {
             System.out.println("Member not found in DB");
         }
-    }
-    private Member buildMemberFromResultSet() throws SQLException {
-        //TODO сейчас без visitedlist  изучить как пройтись по массиву и как его полчить
-        //System.out.println(resultSet.getString("visitedlist"));
-        return new Member(
-                resultSet.getString("name"),
-                resultSet.getString("secondName"),
-                resultSet.getInt("age"),
-                resultSet.getString("gender").toCharArray()[0],
-                resultSet.getInt("wallet"),
-                resultSet.getString("id"),
-                resultSet.getDate("ticketdate")
-        );
     }
 
     @Override

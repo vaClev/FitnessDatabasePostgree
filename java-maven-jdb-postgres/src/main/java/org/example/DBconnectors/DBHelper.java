@@ -8,7 +8,7 @@ public class DBHelper {
     private Connection connection = null;
     private Statement statement = null;
 
-    Statement getStatement() {
+    private Statement getStatement() {
         try {
             // Register the PostgreSQL driver
             Class.forName("org.postgresql.Driver");

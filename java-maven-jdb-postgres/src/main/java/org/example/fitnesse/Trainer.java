@@ -1,6 +1,7 @@
 package org.example.fitnesse;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Trainer extends Visitor implements VisitorInterface {
     List<String> trainerProgramList = new LinkedList<>();
@@ -9,10 +10,13 @@ public class Trainer extends Visitor implements VisitorInterface {
     public Trainer(String name, String secondName, int age) {
         super(name, secondName, age);
     }
-
     public Trainer(String name, String secondName, int age, int num) {
         super(name, secondName, age);
         anketa();
+    }
+    public Trainer(Map<String,String> initParams)
+    {
+        super(initParams);
     }
 
     public void anketa() {

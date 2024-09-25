@@ -1,4 +1,5 @@
 package org.example.fitnesse;
+import java.util.Map;
 import java.util.UUID;
 public class Admin extends Visitor implements VisitorInterface {
 
@@ -11,6 +12,10 @@ public class Admin extends Visitor implements VisitorInterface {
     public Admin(String name, String secondName, int age, int num) {
         super(name, secondName, age);
         anketa();
+    }
+
+    public Admin(Map<String, String> initParams) {
+        super(initParams);
     }
 
     public void anketa() {

@@ -1,5 +1,7 @@
 package org.example.fitnesse;
+
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,16 +12,30 @@ public abstract class Visitor extends DataBase {
     String id;
     int choice = -1;
 
-    public Visitor() {}
+    public Visitor() {
+    }
 
+    public Visitor(String name, String secondName, int age, String id) {
+        this.name = name;
+        this.secondName = secondName;
+        this.age = age;
+        this.id = id;
+    }
     public Visitor(String name, String secondName, int age) {
         this.name = name;
         this.secondName = secondName;
         this.age = age;
         id = UUID.randomUUID().toString().substring(0, 5);
     }
+    public Visitor(Map<String, String> initParams) {
+        this(initParams.get("name"),
+                initParams.get("secondName"),
+                Integer.parseInt(initParams.get("age")),
+                initParams.get("id")
+        );
+    }
 
-    public void setAll(String name, String secondName, int age, String id){
+    public void setAll(String name, String secondName, int age, String id) {
         this.name = name;
         this.secondName = secondName;
         this.age = age;
@@ -48,7 +64,7 @@ public abstract class Visitor extends DataBase {
             choice = Main.scanner.nextInt();
             System.out.println();
             return true;
-        } catch ( InputMismatchException ex) {
+        } catch (InputMismatchException ex) {
             System.out.println("Error");
             Main.scanner.nextLine();
             choice = -1;

@@ -37,12 +37,6 @@ UPDATE Members
 SET ticketdate = '12/01/2024'
 WHERE id = 'qwert';
 
---выборка членов клуба
-SELECT Members.id, Members.name, Members.secondname, Members.age, genders.gender,
-Members.Wallet, Members.VisitedList, Members.TicketDate 
-FROM Members 
-JOIN Genders ON Members.gender = genders.Id;
-
 --Сотрудники
 CREATE TABLE positions
 (
@@ -72,12 +66,6 @@ VALUES
 ('dfghj', 'Arnold', 'Shrartz', 50, 0), --Тренер 0
 ('rewt1', 'Alla', 'Blue', 25, 0); --Тренер 0
 
---выборка сотрдников с должностями
-SELECT Employees.id, Employees.name, Employees.secondname, Employees.age, Employees.status,
-Positions.positionName
-FROM Employees 
-JOIN Positions ON Employees.status = Positions.Id;
-
 --далее программы тренировок
 CREATE TABLE PublicProgramms
 (
@@ -93,9 +81,3 @@ INSERT INTO PublicProgramms(id, ProgrammName, trainerId, duration, maxMembers)
 VALUES 
 (1, 'Pilates','dfghj', 50, 20),
 (2, 'Croosfit','rewt1', 120, 30); 
-
---выборка списка программ
-SELECT PublicProgramms.id, PublicProgramms.ProgrammName, Employees.name, Employees.secondname,
-PublicProgramms.duration, PublicProgramms.maxMembers
-FROM PublicProgramms 
-JOIN Employees ON PublicProgramms.trainerid = Employees.Id;

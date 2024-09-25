@@ -18,7 +18,6 @@ public class PublicProgram extends DataBase{
         System.out.print("Enter max member - ");
         maxMembers = Main.scanner.nextInt();
     }
-
     PublicProgram(String name, Trainer trainer, int duration, int maxMembers) {
         this.name = name;
         this.trainer = trainer;

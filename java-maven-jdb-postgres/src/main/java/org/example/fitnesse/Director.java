@@ -1,4 +1,5 @@
 package org.example.fitnesse;
+import java.util.Map;
 import java.util.Objects;
 
 public class Director extends Visitor implements VisitorInterface {
@@ -6,6 +7,10 @@ public class Director extends Visitor implements VisitorInterface {
     public Director(){}
     public Director(String name, String secondName, int age) {
         super(name, secondName, age);
+    }
+
+    public Director(Map<String, String> initParams) {
+        super(initParams);
     }
 
     @Override
@@ -132,5 +137,15 @@ public class Director extends Visitor implements VisitorInterface {
                 break;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Director{" +
+                "name='" + name + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", age=" + age +
+                ", id='" + id + '\'' +
+                '}';
     }
 }
