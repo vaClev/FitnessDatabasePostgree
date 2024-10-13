@@ -6,10 +6,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Visitor extends DataBase {
-    String name;
-    String secondName;
-    int age;
-    String id;
+    public String name;
+    public String secondName;
+    public int age;
+    public String id;
     int choice = -1;
 
     public Visitor() {

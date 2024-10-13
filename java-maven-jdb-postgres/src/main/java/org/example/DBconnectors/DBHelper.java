@@ -33,6 +33,10 @@ class DBHelper {
         }
         return resultSet;
     }
+    void executeUpdate(String SQLQuery) throws SQLException {
+        getStatement().executeUpdate(SQLQuery);
+        close();
+    }
     void printResultSet(ResultSet resultSet) {
         try {
             int columns = resultSet.getMetaData().getColumnCount();

@@ -30,6 +30,23 @@ public class DBEmployeeBehavior implements DBVisitorBehavior {
         db.close();
         return employees;
     }
+    //TODO подумать как использовать один метод
+    public ArrayList<VisitorInterface> getAll(String position) {
+        employees = new ArrayList<>();
+        String query="""
+                SELECT Employees.id, Employees.name, Employees.secondname, Employees.age, Employees.status,
+                Positions.positionName
+                FROM Employees
+                JOIN Positions ON Employees.status = Positions.Id
+                WHERE Positions.positionName='"""+position+"'";
+        resultSet = db.getResultSet(query);
+        try {
+            collectEmployees();
+        } catch (SQLException ignored) {
+        }
+        db.close();
+        return employees;
+    }
     private void collectEmployees() throws SQLException {
         boolean isEmpty = true;
         while (resultSet.next()) {
@@ -59,7 +76,7 @@ public class DBEmployeeBehavior implements DBVisitorBehavior {
             case "Director" -> new Director(initParams);
             default -> {
                 System.out.println("Некорректные данные в базе, не указана должность сотрудника" +
-                        initParams.get("name")+" "+
+                        initParams.get("name") + " " +
                         initParams.get("secondName"));
                 yield new Trainer("error", "error", 0);
             }
@@ -71,8 +88,8 @@ public class DBEmployeeBehavior implements DBVisitorBehavior {
         foundedEmployee = null;
         resultSet = db.getResultSet("SELECT Employees.id, Employees.name," +
                 "\nEmployees.secondname, Employees.age, Employees.status," +
-                "\nPositions.positionName"+
-                "\nFROM Employees"+
+                "\nPositions.positionName" +
+                "\nFROM Employees" +
                 "\nJOIN Positions ON Employees.status = Positions.Id" +
                 "\nWHERE Employees.id ='" + id + "'");
         try {
@@ -84,16 +101,65 @@ public class DBEmployeeBehavior implements DBVisitorBehavior {
     }
     private void findEmployee() throws SQLException {
         if (resultSet.next()) {
-            foundedEmployee = buildEmployeeFromResultSet();;
+            foundedEmployee = buildEmployeeFromResultSet();
+            ;
         } else {
             System.out.println("Employee not found in DB");
         }
     }
-
     @Override
     public boolean add(VisitorInterface visitor) {
+        //TODO придумать
+        if (visitor instanceof Director)
+        {
+            add((Director)visitor,2);
+        } else if (visitor instanceof Admin) {
+            add((Admin)visitor,1);
+        }
+        else if (visitor instanceof Trainer) {
+            add((Trainer)visitor,0);
+        }
         return false;
     }
+    public boolean add(Visitor visitor, int status) {
+        //TODO проверка наличия в базе
+        try {
+            insertDB(visitor, status);
+        } catch (SQLException e) {
+            System.out.println("такой есть в базе!!!!!");
+            throw new RuntimeException(e);
+            //return false;
+        }
+        return true;
+    }
+    public void insertDB(Visitor v1, int status) throws SQLException {
+        String table = "Employees";
+        String query = String.format(
+                "insert into %s values('%s', '%s', '%s', '%d', '%d')",
+                table,
+                v1.id,
+                v1.name,
+                v1.secondName,
+                v1.age,
+                status);
+        db.executeUpdate(query);
+    }
+
+   /* public void newEmployee(int status) throws SQLException {
+        Visitor temp = createEmployee(status);
+        insertDB(temp, status);
+    }
+    private Visitor createEmployee(int status) {
+        if (status == 0) {
+            return new Trainer();
+        } else if (status == 1) {
+            return new Admin();
+        } else if (status == 2) {
+            return new Director();
+        } else {
+            return null;
+        }
+    }*/
 
     @Override
     public boolean update(VisitorInterface visitor) {
@@ -103,5 +169,17 @@ public class DBEmployeeBehavior implements DBVisitorBehavior {
     @Override
     public boolean delete(VisitorInterface visitor) {
         return false;
+    }
+    public void delete(String id)
+    {
+        try {
+            deleteFromDB(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void deleteFromDB(String id) throws SQLException {
+        String query = getDeleteSQLQuery(id,"Employees");
+        db.executeUpdate(query);
     }
 }

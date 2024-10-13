@@ -1,15 +1,18 @@
 package org.example.fitnesse;
 
+import org.example.DBconnectors.DBEmployeeBehavior;
+import org.example.DBconnectors.DBMembersBehavior;
+import org.example.DBconnectors.DBTrainingsBehavior;
+
 import java.sql.Date;
 import java.util.*;
 
 public class Member extends Visitor implements VisitorInterface {
     static Calendar calendar1 = new GregorianCalendar();
-    char gender;
+    public char gender;
     private int wallet;
     List<String> visitedList = new LinkedList<>();
     Calendar calendar;
-
 
     public Member(String name, String secondName, int age, char gender, int wallet) {
         super(name, secondName, age);
@@ -31,7 +34,6 @@ public class Member extends Visitor implements VisitorInterface {
         super(name, secondName, age);
         anketa();
     }
-
 
     public void anketa() {
         System.out.println("Hello our new member!");
@@ -90,10 +92,10 @@ public class Member extends Visitor implements VisitorInterface {
         if (checkChoice()) {
             switch (choice) {
                 case 1:
-                    System.out.println(Main.site.trainerList);
+                    System.out.println(new DBEmployeeBehavior().getAll("Trainer"));
                     break;
                 case 2:
-                    Main.site.showPublicProgram();
+                    System.out.println(new DBTrainingsBehavior().getAll());;
                     break;
                 case 3:
                     System.out.println("Your balance is: " + this.wallet);
@@ -170,13 +172,15 @@ public class Member extends Visitor implements VisitorInterface {
         }
     }
 
-
     public void pay() {
         int newMoney;
         System.out.println("How many money you want pay?");
         System.out.print("Cost: ");
         newMoney = Main.scanner.nextInt();
-        this.wallet += newMoney;
+
+        new DBMembersBehavior().updateWallet(this.id, newMoney);
+        Member me = (Member) new DBMembersBehavior().getById(this.id);
+        this.wallet = me.wallet;
         System.out.println("Success!\nNow your balance is: " + this.wallet);
     }
 
@@ -205,11 +209,17 @@ public class Member extends Visitor implements VisitorInterface {
         if (Main.site.prices.containsKey(choice)) {
             if (choice <= wallet) {
                 wallet -= choice;
+                new DBMembersBehavior().updateWallet(this.id, -choice);
+                Member me = (Member) new DBMembersBehavior().getById(this.id);
+                this.wallet = me.wallet;
 
-                if (calendar == null) {
+                //TODO Calendar something
+                if (calendar == null || calendar.getTime().before(new GregorianCalendar().getTime())) {
                     calendar = new GregorianCalendar();
                 }
                 calendar.add(Main.site.prices.get(choice), 1);
+                new DBMembersBehavior().updateDate(id, calendar.getTime().toString());
+
             } else {
                 System.out.println("Error: not enough money");
             }
@@ -217,7 +227,6 @@ public class Member extends Visitor implements VisitorInterface {
             System.out.println("Wrong enter");
         }
     }
-
 
     public void deleteProgram() {
         if (calendar != null && calendar.getTime().after(calendar1.getTime())) {

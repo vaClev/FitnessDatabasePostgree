@@ -9,12 +9,10 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         site.createPrices();
-        site.createAdmins();
+        /*site.createAdmins();
         site.createMembers();
-        site.createTrainers();
-        site.createPublicPrograms();
+        site.createTrainers();*//*
+        site.createPublicPrograms();*/
         site.greeting();
-
-
     }
 }

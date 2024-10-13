@@ -77,12 +77,59 @@ public class DBMembersBehavior implements DBVisitorBehavior {
 
     @Override
     public boolean add(VisitorInterface visitor) {
-        return false;
+        Member member = (Member) visitor;
+        try {
+            insertDB(member);
+        } catch (SQLException e) {
+            System.out.println("такой есть в базе!!!!!");
+            throw new RuntimeException(e);
+            //return false;
+        }
+        return true;
     }
+    private void insertDB(Member member) throws SQLException {
+        String table = "Members";
+        int genderId=member.gender=='m'? 1:0;
+        String query = String.format(
+                "insert into %s values('%s', '%s', '%s', '%d', '%d')",
+                table,
+                member.id,
+                member.name,
+                member.secondName,
+                member.age,
+                genderId
+                );
+        db.executeUpdate(query);
+    }
+
     @Override
     public boolean update(VisitorInterface visitor) {
         return false;
     }
+
+    public void updateWallet(String id, int wallet)
+    {
+        String query ="UPDATE Members" +
+                "\nSET wallet = wallet +"+wallet+" "+
+                "\nWHERE id='"+id+"';";
+        try {
+            db.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void updateDate(String id, String date)
+    {
+        String query ="UPDATE Members" +
+                "\nSET ticketdate = '"+date+"'"+
+                "\nWHERE id='"+id+"';";
+        try {
+            db.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public boolean delete(VisitorInterface visitor) {
         return false;

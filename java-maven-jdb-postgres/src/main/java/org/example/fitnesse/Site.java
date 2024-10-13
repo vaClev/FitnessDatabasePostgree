@@ -1,4 +1,7 @@
 package org.example.fitnesse;
+import org.example.DBconnectors.DBEmployeeBehavior;
+import org.example.DBconnectors.DBMembersBehavior;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -7,7 +10,6 @@ import java.util.Objects;
 
 public class Site extends Club {
 
-    static DataBase db = new DataBase();
     int index;
 
     public void greeting() throws SQLException {
@@ -84,17 +86,12 @@ public class Site extends Club {
                     joinMember();
                     break;
                 case 5:
-                   joinEmployee();
-                    break;
                 case 6:
-                    joinEmployee();
-                    break;
                 case 7:
                     joinEmployee();
                     break;
                 case 0:
                     endOfWork();
-
                 default:
                     System.out.println("Wrong enter");
             }
@@ -111,127 +108,17 @@ public class Site extends Club {
         System.out.print("Please enter the password: ");
         String employeePassword = Main.scanner.nextLine();
         employeePassword = Main.scanner.nextLine();
-        statement = db.getConnect();
-        result = statement.executeQuery("select * from employees where id = '" + employeePassword + "'");
-        findEmployee();
+        VisitorInterface employee = new DBEmployeeBehavior().getById(employeePassword);
+        employee.visitorMenu();
     }
-    void findEmployee() throws SQLException {
-        VisitorInterface temp;
-        if(result.next()) {
-
-            if(result.getInt(4) == 0){
-               temp = getEmployee(new Trainer());
-            }
-            else if (result.getInt(4) == 1){
-                temp = getEmployee(new Admin());
-            }
-            else{
-                temp = getEmployee(new Director());
-            }
-
-
-            db.closeConnection(statement);
-            temp.visitorMenu();
-            System.out.println("First Way");
-        }else {
-            System.out.println("Wrong password");
-            db.closeConnection(statement);
-        }
-    }
-
-    VisitorInterface getEmployee(VisitorInterface visitor) throws SQLException {
-        visitor.setAll(
-                result.getString(2),
-                result.getString(3),
-                result.getInt(4),
-                result.getString(1));
-        return visitor;
-    }
-//
-//    private void joinDirector() {
-//        System.out.print("Please enter the password: ");
-//        String directorPassword = Main.scanner.nextLine();
-//        directorPassword = Main.scanner.nextLine();
-//        if (Objects.equals(directorPassword, director.id)) {
-//            System.out.println();
-//            System.out.println("Hello " + director.name);
-//            director.visitorMenu();
-//        } else {
-//            System.out.println("Wrong password");
-//            System.out.println(directorPassword + "  " + director.id);
-//        }
-//    }
-//
-//    private void joinAdmin() {
-//        System.out.print("Please enter the password: ");
-//        String adminPassword = Main.scanner.nextLine();
-//        adminPassword = Main.scanner.nextLine();
-//        index = -1;
-//        for (int i = 0; i < adminList.size(); i++) {
-//            if (Objects.equals(adminPassword, adminList.get(i).id)) {
-//                index = i;
-//            }
-//        }
-//        if (index != -1) {
-//            System.out.println();
-//            System.out.println("Hello " + adminList.get(index).name);
-//            adminList.get(index).visitorMenu();
-//        } else {
-//            System.out.println("Wrong password");
-//        }
-//    }
-//
-//    private void joinTrainer() {
-//        System.out.print("Please enter the password: ");
-//        String trainerPassword = Main.scanner.nextLine();
-//        trainerPassword = Main.scanner.nextLine();
-//        index = -1;
-//        for (int i = 0; i < trainerList.size(); i++) {
-//            if (Objects.equals(trainerPassword, trainerList.get(i).id)) {
-//                index = i;
-//            }
-//        }
-//        if (index != -1) {
-//            System.out.println();
-//            System.out.println("Hello " + trainerList.get(index).name);
-//            trainerList.get(index).visitorMenu();
-//        } else {
-//            System.out.println("Wrong password");
-//        }
-//    }
 
     private void joinMember() throws SQLException {
         System.out.print("Please enter the password: ");
         String memberPassword = Main.scanner.nextLine();
         memberPassword = Main.scanner.nextLine();
-        statement = db.getConnect();
-        result = statement.executeQuery("select * from members where id = '" + memberPassword + "'");
-        findMember();
+        VisitorInterface member = new DBMembersBehavior().getById(memberPassword);
+        member.visitorMenu();
     }
-
-    void findMember() throws SQLException {
-        if(result.next()) {
-            Member temp = getMember();
-            db.closeConnection(statement);
-            temp.visitorMenu();
-            System.out.println("First Way");
-        }else {
-            System.out.println("Wrong password");
-            db.closeConnection(statement);
-        }
-    }
-
-    Member getMember() throws SQLException {
-        Member temp = new Member(
-                result.getString(1),
-                result.getString(3),
-                result.getInt(4),
-                result.getString(5).toCharArray()[0],
-                result.getInt(6));
-        return temp;
-    }
-
-
 
     public void showTicketList() {
         for (Map.Entry<Integer, Integer> elem : prices.entrySet()) {

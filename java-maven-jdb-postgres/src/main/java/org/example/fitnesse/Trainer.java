@@ -212,7 +212,6 @@ public class Trainer extends Visitor implements VisitorInterface {
                 "name='" + name + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", age=" + age +
-                ", id='" + id + '\'' +
                 '}';
     }
 }
