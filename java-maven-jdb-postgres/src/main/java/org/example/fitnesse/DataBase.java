@@ -25,22 +25,8 @@ public class DataBase {
             System.out.println();
         }
     }
-
     public void closeConnection(Statement statement) throws SQLException {
         connection.close();
         statement.close();
     }
-
-//
-//        result = statement.executeQuery("Select age from employees where name = 'Arnold'");
-//        int columns = result.getMetaData().getColumnCount();
-//
-//
-//        while(result.next()){
-//            for (int i = 1;i<=columns;i++){
-//                System.out.print(result.getString(i)+ "\t");
-//            }
-//            System.out.println();
-//        }
-
 }

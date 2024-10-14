@@ -115,7 +115,6 @@ public class Member extends Visitor implements VisitorInterface {
         }
         System.out.println();
     }
-
     public void visitorAddLogistic() {
         if (checkChoice()) {
             switch (choice) {
@@ -137,7 +136,6 @@ public class Member extends Visitor implements VisitorInterface {
         }
         System.out.println();
     }
-
     public void visitorDelLogistic() {
         if (checkChoice()) {
             switch (choice) {
@@ -161,7 +159,6 @@ public class Member extends Visitor implements VisitorInterface {
             System.out.println("You have not any ticket");
         }
     }
-
     public void showMyPrograms() {
         if (calendar != null && calendar.getTime().after(calendar1.getTime())) {
             for (int i = 0; i < visitedList.size(); i++) {
@@ -171,7 +168,6 @@ public class Member extends Visitor implements VisitorInterface {
             System.out.println("You should buy new ticket");
         }
     }
-
     public void pay() {
         int newMoney;
         System.out.println("How many money you want pay?");
@@ -183,8 +179,8 @@ public class Member extends Visitor implements VisitorInterface {
         this.wallet = me.wallet;
         System.out.println("Success!\nNow your balance is: " + this.wallet);
     }
-
     public void joinProgram() {
+        //TODO обращаться к базе данных
         if (calendar != null && calendar.getTime().after(calendar1.getTime())) {
             System.out.println("What program do you want to visit?");
             Main.site.showPublicProgram();
@@ -200,7 +196,6 @@ public class Member extends Visitor implements VisitorInterface {
             System.out.println("You should buy new ticket");
         }
     }
-
     public void buyTicket() {
         Main.site.showTicketList();
         System.out.print("What package do you want? Enter the cost: ");
@@ -227,8 +222,8 @@ public class Member extends Visitor implements VisitorInterface {
             System.out.println("Wrong enter");
         }
     }
-
     public void deleteProgram() {
+        //TODO обращаться к базе данных
         if (calendar != null && calendar.getTime().after(calendar1.getTime())) {
             if (!visitedList.isEmpty()) {
                 for (int i = 0; i < visitedList.size(); i++) {

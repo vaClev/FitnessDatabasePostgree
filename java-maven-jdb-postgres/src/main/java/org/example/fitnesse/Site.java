@@ -1,42 +1,18 @@
 package org.example.fitnesse;
 import org.example.DBconnectors.DBEmployeeBehavior;
 import org.example.DBconnectors.DBMembersBehavior;
+import org.example.DBconnectors.DBTrainingsBehavior;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Objects;
 
 public class Site extends Club {
 
-    int index;
-
     public void greeting() throws SQLException {
-
-        System.out.println("Members:");
-        for (int i = 0; i < memberList.size(); i++) {
-            System.out.println(memberList.get(i).name + "   " + memberList.get(i).id);
-        }
-        System.out.println();
-
-        System.out.println("Trainers:");
-        for (int i = 0; i < trainerList.size(); i++) {
-            System.out.println(trainerList.get(i).name + "   " + trainerList.get(i).id);
-        }
-        System.out.println();
-
-        System.out.println("Admins");
-        for (int i = 0; i < adminList.size(); i++) {
-            System.out.println(adminList.get(i).name + "   " + adminList.get(i).id);
-        }
-        System.out.println();
-        System.out.println("Director");
-        System.out.println(director.name + "   " + director.id);
-
-        System.out.println();
-        System.out.println();
-
         System.out.println("We glad to see you on out site!");
         System.out.println("\'Description\'");
         while (true) {
@@ -44,9 +20,8 @@ public class Site extends Club {
         }
     }
 
-    public void menu() throws SQLException {
+    public void menu()  {
         while (true) {
-
             System.out.println("" +
                     "Menu:\n" +
                     "1) Become a new member\n" +
@@ -58,11 +33,10 @@ public class Site extends Club {
                     "7) Sign in like a Director\n" +
                     "0) Exit from site");
             logistic();
-
         }
     }
 
-    public void logistic() throws SQLException {
+    public void logistic() {
         int answer;
         try {
             System.out.print("Enter your answer - ");
@@ -98,13 +72,11 @@ public class Site extends Club {
             System.out.println();
     }
 
-    private void endOfWork() throws SQLException {
-        connection.close();
-        statement.close();
+    private void endOfWork() {
         System.exit(0);
     }
 
-    private void joinEmployee() throws SQLException {
+    private void joinEmployee() {
         System.out.print("Please enter the password: ");
         String employeePassword = Main.scanner.nextLine();
         employeePassword = Main.scanner.nextLine();
@@ -112,7 +84,7 @@ public class Site extends Club {
         employee.visitorMenu();
     }
 
-    private void joinMember() throws SQLException {
+    private void joinMember() {
         System.out.print("Please enter the password: ");
         String memberPassword = Main.scanner.nextLine();
         memberPassword = Main.scanner.nextLine();
@@ -120,6 +92,7 @@ public class Site extends Club {
         member.visitorMenu();
     }
 
+    //TODO переделать на Базу данных
     public void showTicketList() {
         for (Map.Entry<Integer, Integer> elem : prices.entrySet()) {
             System.out.println(elem.getValue() + " " + elem.getKey());
@@ -127,14 +100,21 @@ public class Site extends Club {
     }
 
     public void showPublicProgram() {
-        for (int i = 0; i < publicProgramList.size(); i++) {
-            System.out.println((i + 1) + ") " + publicProgramList.get(i).name);
+        ArrayList<PublicProgram> programs = new DBTrainingsBehavior().getAll();
+        int i=0;
+        for (var program:programs) {
+            System.out.println((i + 1) + ") " +program.name);
+            i++;
         }
     }
 
     public void showTrainerList() {
-        for (Trainer elem : trainerList) {
-            System.out.println(elem.name + " - " + elem.id);
+        ArrayList<VisitorInterface> trainers = new DBEmployeeBehavior().getAll("Trainer");
+        int i=0;
+        for (var trainer : trainers) {
+            Trainer trainerI = (Trainer)trainer;
+            System.out.println((i + 1) + ") " +trainerI.name +" "+trainerI.age);
+            i++;
         }
     }
 }

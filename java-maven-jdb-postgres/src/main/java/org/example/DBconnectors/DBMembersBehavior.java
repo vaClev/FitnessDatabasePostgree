@@ -106,9 +106,7 @@ public class DBMembersBehavior implements DBVisitorBehavior {
     public boolean update(VisitorInterface visitor) {
         return false;
     }
-
-    public void updateWallet(String id, int wallet)
-    {
+    public void updateWallet(String id, int wallet){
         String query ="UPDATE Members" +
                 "\nSET wallet = wallet +"+wallet+" "+
                 "\nWHERE id='"+id+"';";
@@ -118,8 +116,7 @@ public class DBMembersBehavior implements DBVisitorBehavior {
             throw new RuntimeException(e);
         }
     }
-    public void updateDate(String id, String date)
-    {
+    public void updateDate(String id, String date){
         String query ="UPDATE Members" +
                 "\nSET ticketdate = '"+date+"'"+
                 "\nWHERE id='"+id+"';";
