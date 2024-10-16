@@ -2,7 +2,7 @@ package org.example.fitnesse;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PublicProgram extends DataBase{
+public class PublicProgram {
     static int numOfPrograms = 0;
     String name;
     Trainer trainer;

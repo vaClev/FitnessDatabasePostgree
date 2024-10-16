@@ -2,24 +2,33 @@ package org.example.DBconnectors;
 import java.sql.*;
 
 class DBHelper {
+    //TODO удобно но опасно работать через ResultSet переписать классы через более безопасный PrepareStatement
     private static final String jdbcUrl = "jdbc:postgresql://localhost:5432/FitnessHome";
     private static final String username = "postgres";
     private static final String password = "1234";
     private Connection connection = null;
     private Statement statement = null;
-
-    private Statement getStatement() {
+    private void connect(){
+        // Register the PostgreSQL driver
         try {
-            // Register the PostgreSQL driver
             Class.forName("org.postgresql.Driver");
-            // Connect to the database
-            this.connection = DriverManager.getConnection(jdbcUrl, username, password);
-            this.statement = connection.createStatement();
-            return statement;
-        } catch (ClassNotFoundException e) {
+        }  catch (ClassNotFoundException e) {
             System.out.println("ошибка регистрации драйвера PostgreSQL");
+        }
+        // Connect to the database
+        try {
+            this.connection = DriverManager.getConnection(jdbcUrl, username, password);
         } catch (SQLException e) {
             System.out.println("ошибка подключения к базе данных" + jdbcUrl + " " + username + " " + password);
+        }
+    }
+    private Statement getStatement() {
+        try {
+            connect();
+            this.statement = connection.createStatement();
+            return statement;
+        } catch (SQLException e) {
+            System.out.println("ошибка получения Statement");
         }
         throw new RuntimeException();
     }

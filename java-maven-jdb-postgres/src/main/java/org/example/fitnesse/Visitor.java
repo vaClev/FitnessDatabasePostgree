@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class Visitor extends DataBase {
+public abstract class Visitor {
     public String name;
     public String secondName;
     public int age;

@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class Site extends Club {
 
-    public void greeting() throws SQLException {
+    public void greeting() {
         System.out.println("We glad to see you on out site!");
         System.out.println("\'Description\'");
         while (true) {

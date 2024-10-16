@@ -1,7 +1,7 @@
 package org.example.fitnesse;
 import java.util.*;
 
-public class Club extends DataBase {
+public class Club {
 
     List<Member> memberList = new LinkedList<>();
     List<Admin> adminList = new LinkedList<>();
